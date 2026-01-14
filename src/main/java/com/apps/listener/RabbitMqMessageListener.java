@@ -15,9 +15,9 @@ public class RabbitMqMessageListener {
         System.out.println("📩 RabbitMQ received message: " + message);
     }
 
-    @Bean
+    /*@Bean
     public Queue testQueue() {
         return new Queue("test.queue", true);
-    }
+    }*/
 }
 
