@@ -2,12 +2,10 @@ server:
   port: 1000
 
 messaging:
-  broker: activemq   # rabbitmq | ibmmq
+  broker: rabbitmq   # rabbitmq | ibmmq
   queue: test.queue
 
 spring:
-  profiles:
-    active: activemq
   application:
     name: messaging-service
   activemq:
@@ -15,7 +13,7 @@ spring:
     user: admin
     password: admin
   rabbitmq:
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: guest
     password: guest

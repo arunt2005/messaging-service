@@ -6,12 +6,10 @@ messaging:
   queue: test.queue
 
 spring:
-  profiles:
-    active: activemq
   application:
     name: messaging-service
   activemq:
-    broker-url: tcp://localhost:61616
+    broker-url: tcp://activemq:61616
     user: admin
     password: admin
   rabbitmq:

@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+
+  activemq:
+    image: rmohr/activemq
+    container_name: activemq
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  messaging-service:
+    image: messaging-service:latest
+    container_name: messaging-service
+    ports:
+      - "1000:1000"
+    depends_on:
+      - activemq
+      - rabbitmq
+    environment:
+      SPRING_PROFILES_ACTIVE: activemq
