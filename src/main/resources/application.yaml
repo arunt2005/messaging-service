@@ -2,7 +2,7 @@ server:
   port: 1000
 
 messaging:
-  broker: activemq   # rabbitmq | ibmmq
+  broker: rabbitmq   # rabbitmq | ibmmq
   queue: test.queue
 
 spring:
