@@ -24,7 +24,14 @@ public class MessageController {
     public ResponseEntity<ApiResponse> publish(
             @Valid @RequestBody PublishMessageRequest request) {
 
-        publisher.publish(request.getMessage());
+        try {
+            for (int i = 0; i < 5; i++) {
+                publisher.publish(request.getMessage());
+                Thread.sleep(500);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return ResponseEntity.ok(
                 new ApiResponse("SUCCESS", "Message published successfully")
