@@ -1,7 +1,10 @@
 package com.apps.controller;
 
-import com.apps.dto.MessageRequest;
-import com.apps.service.MessagingService;
+import com.apps.dto.ApiResponse;
+import com.apps.dto.PublishMessageRequest;
+import com.apps.messaging.MessagePublisher;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,15 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/messages")
 public class MessageController {
 
-    private final MessagingService messagingService;
+    private final MessagePublisher publisher;
 
-    public MessageController(MessagingService messagingService) {
-        this.messagingService = messagingService;
+    public MessageController(MessagePublisher publisher) {
+        this.publisher = publisher;
     }
 
     @PostMapping("/publish")
-    public String publish(@RequestBody MessageRequest request) {
-        messagingService.publish(request.destination(), request.message());
-        return "Message sent";
+    public ResponseEntity<ApiResponse> publish(
+            @Valid @RequestBody PublishMessageRequest request) {
+
+        publisher.publish(request.getMessage());
+
+        return ResponseEntity.ok(
+                new ApiResponse("SUCCESS", "Message published successfully")
+        );
     }
 }
