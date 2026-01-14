@@ -8,6 +8,11 @@ services:
     ports:
       - "61616:61616"
       - "8161:8161"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8161" ]
+      interval: 10s
+      timeout: 5s
+      retries: 1
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -19,7 +24,7 @@ services:
       test: [ "CMD", "rabbitmq-diagnostics", "check_port_connectivity" ]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   messaging-service:
     image: messaging-service:latest
@@ -27,7 +32,9 @@ services:
     ports:
       - "1000:1000"
     depends_on:
-      - activemq
-      - rabbitmq
+      activemq:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: rabbitmq
