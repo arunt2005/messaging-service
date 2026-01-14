@@ -2,8 +2,11 @@ package com.apps.messaging.rabbit;
 
 import com.apps.messaging.MessagePublisher;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.amqp.core.Queue;
+
 
 @Component
 @Profile("rabbitmq")
@@ -17,6 +20,12 @@ public class RabbitMQPublisher implements MessagePublisher {
 
     @Override
     public void publish(String message) {
-        rabbitTemplate.convertAndSend("app.exchange", "app.routing.key", message);
+        // rabbitTemplate.convertAndSend("app.exchange", "app.routing.key", message);
+        // Instead of exchange + routing key
+        rabbitTemplate.convertAndSend("test.queue", message);
+    }
+    @Bean
+    public Queue testQueue() {
+        return new Queue("test.queue", true);
     }
 }
