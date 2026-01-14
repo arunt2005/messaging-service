@@ -11,18 +11,19 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("rabbitmq")
 public class RabbitMqConfig {
+
+    @Bean
+    public Queue testQueue() {
+        return new Queue("test.queue", true);
+    }
+
     @Bean
     public DirectExchange appExchange() {
         return new DirectExchange("app.exchange");
     }
 
     @Bean
-    public Queue appQueue() {
-        return new Queue("test.queue", true);
-    }
-
-    @Bean
-    public Binding binding(Queue appQueue, DirectExchange appExchange) {
-        return BindingBuilder.bind(appQueue).to(appExchange).with("app.routing.key");
+    public Binding binding(Queue testQueue, DirectExchange appExchange) {
+        return BindingBuilder.bind(testQueue).to(appExchange).with("app.routing.key");
     }
 }

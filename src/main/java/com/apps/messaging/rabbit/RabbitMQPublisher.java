@@ -24,8 +24,4 @@ public class RabbitMQPublisher implements MessagePublisher {
         // Instead of exchange + routing key
         rabbitTemplate.convertAndSend("test.queue", message);
     }
-    @Bean
-    public Queue testQueue() {
-        return new Queue("test.queue", true);
-    }
 }
